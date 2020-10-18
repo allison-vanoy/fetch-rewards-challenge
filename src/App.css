@@ -1,3 +1,17 @@
+thead {
+	background-color: #FBA819;
+}
+
+.groupTitle {
+	background-color: #94D4C5!important;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+thead, .groupTitle, td {
+	color: #300C39;
+}
+
 .hideRow {
 	display: none;
 }

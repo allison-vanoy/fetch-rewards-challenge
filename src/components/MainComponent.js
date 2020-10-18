@@ -41,8 +41,11 @@ function TableRows(props) {
 
 				return (
 					<React.Fragment>
-						<tr key={val}>
-							<td colSpan="2" id={val} onClick={props.addCollapsed}>{`Group ${val}`}</td>
+						<tr key={val} className="groupTitle">
+							<td colSpan="2" id={val} onClick={props.addCollapsed}>
+								<i className={(props.collapsed.includes(val)) ? "fa fa-angle-right" : "fa fa-angle-down"} />{' '}
+								{`Group ${val}`}
+							</td>
 						</tr>
 						{listArr.map(row => {
 							return (
@@ -118,7 +121,7 @@ class HiringList extends Component {
 			return <div>Loading</div>
 		} else {
 			return (
-				<Table bordered striped>
+				<Table bordered striped className="container">
 					<thead>
 						<tr>
 							<th>ListId</th>
