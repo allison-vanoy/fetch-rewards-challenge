@@ -42,11 +42,11 @@ function TableRows(props) {
 				return (
 					<React.Fragment>
 						<tr key={val}>
-							<td colSpan="2">{`Group ${val}`}</td>
+							<td colSpan="2" id={val} onClick={props.addCollapsed}>{`Group ${val}`}</td>
 						</tr>
 						{listArr.map(row => {
 							return (
-								<tr key={row.id}>
+								<tr key={row.id} className={(props.collapsed.includes(val)) ? "hideRow" : "showRow"}>
 									<td>{row.listId}</td>
 									<td>{row.name}</td>
 								</tr>
@@ -70,7 +70,8 @@ class HiringList extends Component {
 		this.state = {
 			error: null,
 			isLoading: false,
-			hiringList: []
+			hiringList: [],
+			collapsed: []
 		};
 	}
 
@@ -93,8 +94,23 @@ class HiringList extends Component {
 		)
 	}
 
+	//create array in collapsed state with id of clicked group rows to collapse change class names
+	//of corresponding rows to hide and remove id from state when clicked again to unhide
+	addCollapsed = (e) => {
+		const targetId = parseInt(e.target.id);
+		let collapsedArr = [];
+		if (this.state.collapsed.includes(targetId)) {
+			let arrIndex = this.state.collapsed.indexOf(targetId);
+			collapsedArr = this.state.collapsed.splice(arrIndex, 1);
+		} else {
+			collapsedArr = this.state.collapsed.push(targetId);
+		}
+
+		this.setState({ collapsedArr })
+	}
+
 	render() {
-		const { error, isLoaded, hiringList } = this.state;
+		const { error, isLoaded, hiringList, collapsed } = this.state;
 		
 		if (error) {
 			return <div>{`Could not load content due to error: ${error.message}`}</div>
@@ -110,7 +126,7 @@ class HiringList extends Component {
 						</tr>
 					</thead>
 					<tbody>
-						<TableRows hiringList={hiringList} />
+						<TableRows hiringList={hiringList} collapsed={collapsed} addCollapsed={(e) => this.addCollapsed(e)} />
 					</tbody>
 				</Table>
 			)
